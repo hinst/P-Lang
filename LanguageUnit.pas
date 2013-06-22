@@ -12,10 +12,12 @@ type
   TLanguage = class
   protected
     FStorage: TStringMap;
-    function GetItem(const aString: string): string;
+    function GetItem(const aKey: string): string; inline;
+    function GetItemExists(const aKey: string): Boolean; inline;
     function GetMin: TStringMap.TIterator;
   public
     property Items[const aKey: string]: string read GetItem;
+    property ItemExists[const aKey: string]: Boolean read GetItemExists;
     property Min: TStringMap.TIterator read GetMin;
     constructor Create(const aStorage: TStringMap);
     function ToDebugText: string;
@@ -26,11 +28,11 @@ implementation
 
 { TLanguage }
 
-function TLanguage.GetItem(const aString: string): string;
+function TLanguage.GetItem(const aKey: string): string;
 var
   i: TStringMap.TIterator;
 begin
-  i := FStorage.Find(aString);
+  i := FStorage.Find(aKey);
   if
     i = nil
   then
@@ -40,6 +42,15 @@ begin
     result := i.Value;
     i.Free;
   end;
+end;
+
+function TLanguage.GetItemExists(const aKey: string): Boolean;
+var
+  i: TStringMap.TIterator;
+begin
+  i := FStorage.Find(aKey);
+  i.Free;
+  result := i <> nil;
 end;
 
 function TLanguage.GetMin: TStringMap.TIterator;

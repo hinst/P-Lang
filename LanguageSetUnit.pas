@@ -50,18 +50,22 @@ begin
 end;
 
 function TLanguageSet.InconsistenciesToDebugText: string;
-  procedure checkIt(const aIterator: TStringMap.TIterator);
+var
+  r: string;
+
+  procedure checkItBack(const aIterator: TStringMap.TIterator);
   var
     key, value: string;
   begin
     repeat
       key := aIterator.Key;
       value := aIterator.Value;
-      if Languages[0].Items[key];
+      if not Languages[0].ItemExists[key] then
+        r += 'No such entry in the default language: "' + key + '"';
     until not aIterator.Next;
   end;
 
-  procedure check(const aIndex: integer);
+  procedure checkBack(const aIndex: integer);
   var
     languageIterator: TStringMap.TIterator;
   begin
@@ -70,26 +74,59 @@ function TLanguageSet.InconsistenciesToDebugText: string;
       languageIterator <> nil
     then
     begin
-      checkIt(languageIterator);
+      checkItBack(languageIterator);
       languageIterator.Free;
     end;
   end;
+
+  procedure checkItForward(const aKey: string);
+  var
+    i: Integer;
+  begin
+    for i := 0 to Languages.Count - 1 do
+    begin
+      if not Languages[i].ItemExists[aKey] then
+        r += LanguageIds[i] + ' does not contain "' + aKey + '"' + LineEnding;
+    end;
+  end;
+
+  procedure checkForward;
+  var
+    key: string;
+    languageIterator: TStringMap.TIterator;
+  begin
+    languageIterator := Languages[0].Min;
+    if
+      languageIterator <> nil
+    then
+    begin
+      repeat
+        key := languageIterator.Key;
+        checkItForward(key);
+      until not languageIterator.Next;
+      languageIterator.Free;
+    end;
+  end;
+
 var
   i: Integer;
 begin
   if
     Languages.Count = 1
   then
-    result :=
+    r :=
       'There is only one language;'
       + ' it is impossible to search for inconsistencies.'
   else
   begin
-    result := '';
+    r := '';
     for i := 1 to Languages.Count - 1 do
-    begin
-      ;
-    end;
+      checkBack(i);
+    if
+      r = ''
+    then
+      r := 'No reversed inconsistencies found.' + LineEnding;
+    checkForward;
   end;
 end;
 
