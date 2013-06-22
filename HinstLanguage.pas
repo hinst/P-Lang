@@ -7,7 +7,8 @@ unit HinstLanguage;
 interface
 
 uses
-  LanguageUnit, LanguageLoaderUnit;
+  LanguageUnit, LanguageLoaderUnit, LanguageLoaderJsonUnit, LanguageSetUnit, 
+  LanguageSetLoaderUnit, LanguageSetLoaderJsonUnit;
 
 implementation
 

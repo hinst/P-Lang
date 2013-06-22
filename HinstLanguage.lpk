@@ -7,6 +7,11 @@
       <SearchPaths>
         <UnitOutputDirectory Value="compiled/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
+      <Linking>
+        <Debugging>
+          <UseHeaptrc Value="True"/>
+        </Debugging>
+      </Linking>
       <Other>
         <CompilerMessages>
           <MsgFileName Value=""/>
@@ -14,7 +19,7 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Files Count="2">
+    <Files Count="6">
       <Item1>
         <Filename Value="LanguageUnit.pas"/>
         <UnitName Value="LanguageUnit"/>
@@ -23,6 +28,22 @@
         <Filename Value="LanguageLoaderUnit.pas"/>
         <UnitName Value="LanguageLoaderUnit"/>
       </Item2>
+      <Item3>
+        <Filename Value="LanguageLoaderJsonUnit.pas"/>
+        <UnitName Value="LanguageLoaderJsonUnit"/>
+      </Item3>
+      <Item4>
+        <Filename Value="LanguageSetUnit.pas"/>
+        <UnitName Value="LanguageSetUnit"/>
+      </Item4>
+      <Item5>
+        <Filename Value="LanguageSetLoaderUnit.pas"/>
+        <UnitName Value="LanguageSetLoaderUnit"/>
+      </Item5>
+      <Item6>
+        <Filename Value="LanguageSetLoaderJsonUnit.pas"/>
+        <UnitName Value="LanguageSetLoaderJsonUnit"/>
+      </Item6>
     </Files>
     <RequiredPkgs Count="3">
       <Item1>

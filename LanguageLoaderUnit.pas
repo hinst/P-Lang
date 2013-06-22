@@ -29,7 +29,6 @@ constructor TLanguageLoader.Create(const aStream: TStream);
 begin
   inherited Create;
   FStream := aStream;
-  FLanguage := TLanguage.Create;
 end;
 
 end.

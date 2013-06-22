@@ -49,7 +49,7 @@
   <CompilerOptions>
     <Version Value="11"/>
     <Target>
-      <Filename Value="Test_001"/>
+      <Filename Value="../../Bin/Test_001"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
