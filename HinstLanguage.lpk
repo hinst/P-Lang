@@ -19,7 +19,7 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Files Count="6">
+    <Files Count="8">
       <Item1>
         <Filename Value="LanguageUnit.pas"/>
         <UnitName Value="LanguageUnit"/>
@@ -44,17 +44,22 @@
         <Filename Value="LanguageSetLoaderJsonUnit.pas"/>
         <UnitName Value="LanguageSetLoaderJsonUnit"/>
       </Item6>
+      <Item7>
+        <Filename Value="LanguageStringMapUnit.pas"/>
+        <UnitName Value="LanguageStringMapUnit"/>
+      </Item7>
+      <Item8>
+        <Filename Value="LanguageListUnit.pas"/>
+        <UnitName Value="LanguageListUnit"/>
+      </Item8>
     </Files>
-    <RequiredPkgs Count="3">
+    <RequiredPkgs Count="2">
       <Item1>
-        <PackageName Value="fcl_stl_hinst"/>
+        <PackageName Value="fcl_stl"/>
       </Item1>
       <Item2>
-        <PackageName Value="fcl_stl"/>
-      </Item2>
-      <Item3>
         <PackageName Value="FCL"/>
-      </Item3>
+      </Item2>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

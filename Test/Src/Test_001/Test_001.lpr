@@ -15,7 +15,7 @@ begin
 end;
 
 begin
-  l := TLanguageSetLoader.LoadFromFile(TLanguageSetLoaderJson, '../Data/sampleLanguage.json');
+  l := TLanguageSetLoaderJson.LoadFromFile('../Data/sampleLanguage.json');
   ListLanguageIds;
   WriteLN;
   WriteLN(l.ToDebugText);

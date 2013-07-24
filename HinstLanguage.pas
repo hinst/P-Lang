@@ -8,7 +8,8 @@ interface
 
 uses
   LanguageUnit, LanguageLoaderUnit, LanguageLoaderJsonUnit, LanguageSetUnit, 
-  LanguageSetLoaderUnit, LanguageSetLoaderJsonUnit;
+  LanguageSetLoaderUnit, LanguageSetLoaderJsonUnit, LanguageStringMapUnit, 
+  LanguageListUnit;
 
 implementation
 

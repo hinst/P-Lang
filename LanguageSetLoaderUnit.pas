@@ -21,7 +21,9 @@ type
     property LanguageSet: TLanguageSet read FLanguageSet;
     constructor Create(const aStream: TStream); virtual;
     procedure Load; virtual; abstract;
-    class function LoadFromFile(const aLoader: TLanguageSetLoaderClass; const aFileName: string)
+    class function LoadFromStream(const aStream: TStream): TLanguageSet;
+    class function LoadFromResource(const aName: string; const aType: PChar): TLanguageSet;
+    class function LoadFromFile(const aFileName: string)
       : TLanguageSet;
   end;
 
@@ -37,24 +39,41 @@ begin
   FStream := aStream;
 end;
 
-class function TLanguageSetLoader.LoadFromFile(
-  const aLoader: TLanguageSetLoaderClass;
-  const aFileName: string
-  )
-  : TLanguageSet;
+class function TLanguageSetLoader.LoadFromStream(const aStream: TStream): TLanguageSet;
 var
   l: TLanguageSetLoader;
-  s: TStream;
 begin
   try
-    s := TFileStream.Create(aFileName, fmOpenRead);
-    try
-      l := aLoader.Create(s);
-      l.Load;
-    finally
-      l.Free;
-    end;
+    l := self.Create(aStream);
+    l.Load;
     result := l.LanguageSet;
+  finally
+    l.Free;
+  end;
+end;
+
+class function TLanguageSetLoader.LoadFromResource(const aName: string; const aType: PChar)
+  : TLanguageSet;
+var
+  s: TResourceStream;
+begin
+  s := nil;
+  try
+    s := TResourceStream.Create(HINSTANCE, aName, aType);
+    result := LoadFromStream(s);
+  finally
+    s.Free;
+  end;
+end;
+
+class function TLanguageSetLoader.LoadFromFile(const aFileName: string): TLanguageSet;
+var
+  s: TStream;
+begin
+  s := nil;
+  try
+    s := TFileStream.Create(aFileName, fmOpenRead);
+    result := LoadFromStream(s);
   finally
     s.Free;
   end;

@@ -38,12 +38,16 @@
         <PackageName Value="HinstLanguage"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="1">
+    <Units Count="2">
       <Unit0>
         <Filename Value="Test_001.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Test_001"/>
       </Unit0>
+      <Unit1>
+        <Filename Value="../../Data/sampleLanguage.json"/>
+        <IsPartOfProject Value="True"/>
+      </Unit1>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -55,11 +59,6 @@
       <IncludeFiles Value="$(ProjOutDir)"/>
       <UnitOutputDirectory Value="compiled/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
-    <Linking>
-      <Debugging>
-        <UseHeaptrc Value="True"/>
-      </Debugging>
-    </Linking>
     <Other>
       <CompilerMessages>
         <MsgFileName Value=""/>

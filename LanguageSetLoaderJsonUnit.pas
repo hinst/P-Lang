@@ -5,7 +5,7 @@ interface
 uses
   Classes,
   jsonparser, fpjson,
-  StringMapUnit,
+  LanguageStringMapUnit,
   LanguageUnit, LanguageSetUnit, LanguageSetLoaderUnit;
 
 type
@@ -18,7 +18,7 @@ type
     procedure LoadLanguage(const aKey: string; const aData: TJsonData);
     function LoadTexts(const aData: TJsonObject): TStringMap;
     function LoadLanguageFromObject(const aData: TJsonObject): TLanguage;
-    procedure Throw(const aMessage: string);
+    procedure RaiseException(const aMessage: string);
   public
     constructor Create(const aStream: TStream); override;
     procedure Load; override;
@@ -35,7 +35,7 @@ var
   i: Integer;
 begin
   if aData.JSONType <> jtObject then
-    Throw('Root element is not an object');
+    RaiseException('Root element is not an object');
   for i := 0 to aData.Count - 1 do
     LoadLanguage(TJsonObject(aData).Names[i], aData.Items[i]);
 end;
@@ -43,7 +43,7 @@ end;
 procedure TLanguageSetLoaderJson.LoadLanguage(const aKey: string; const aData: TJsonData);
 begin
   if aData.JSONType <> jtObject then
-    Throw('Language is not an object: "' + aKey + '"');
+    RaiseException('Language is not an object: "' + aKey + '"');
   FLanguageSet.LanguageIds.Add(aKey);
   FLanguageSet.Languages.Add(LoadLanguageFromObject(TJsonObject(aData)));
 end;
@@ -64,7 +64,7 @@ begin
     if
       currentValue.JSONType <> jtString
     then
-      Throw('Item is not a string: "' + currentKey + '"');
+      RaiseException('Item is not a string: "' + currentKey + '"');
     result.Insert(currentKey, currentValue.AsString);
   end;
 end;
@@ -74,7 +74,7 @@ begin
   result := TLanguage.Create(LoadTexts(aData));
 end;
 
-procedure TLanguageSetLoaderJson.Throw(const aMessage: string);
+procedure TLanguageSetLoaderJson.RaiseException(const aMessage: string);
 begin
   raise TLanguageSetLoaderJsonException.Create(aMessage);
 end;
@@ -87,10 +87,13 @@ end;
 procedure TLanguageSetLoaderJson.Load;
 var
   parser: TJSONParser;
+  data: TJSONData;
 begin
   FLanguageSet := TLanguageSet.Create;
   parser := TJSONParser.Create(Stream);
-  LoadFromData(parser.Parse);
+  data := parser.Parse;
+  LoadFromData(data);
+  data.Free;
   parser.Free;
 end;
 

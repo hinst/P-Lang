@@ -5,9 +5,8 @@ interface
 uses
   Classes,
   SysUtils,
-  fgl,
-  StringMapUnit,
-  LanguageUnit;
+  LanguageStringMapUnit,
+  LanguageUnit, LanguageListUnit;
 
 type
 
@@ -15,15 +14,15 @@ type
 
   TLanguageSet = class
   protected
-    type TLanguages = specialize TFPGList<TLanguage>;
-    var FLanguages: TLanguages;
-    var FLanguageIds: TStringList;
+    FLanguages: TLanguageList;
+    FLanguageIds: TStringList;
   public
-    property Languages: TLanguages read FLanguages;
+    property Languages: TLanguageList read FLanguages;
     property LanguageIds: TStringList read FLanguageIds;
     constructor Create;
     function ToDebugText: string;
     function InconsistenciesToDebugText: string;
+    function FindLanguage(const aLanguageId: string): TLanguage;
     destructor Destroy; override;
   end;
 
@@ -33,7 +32,7 @@ implementation
 
 constructor TLanguageSet.Create;
 begin
-  FLanguages := TLanguages.Create;
+  FLanguages := TLanguageList.Create;
   FLanguageIds := TStringList.Create;
 end;
 
@@ -69,7 +68,7 @@ var
   var
     languageIterator: TStringMap.TIterator;
   begin
-    languageIterator := Languages[aIndex].Min;
+    languageIterator := Languages[aIndex].Storage.Iterator;
     if
       languageIterator <> nil
     then
@@ -95,7 +94,7 @@ var
     key: string;
     languageIterator: TStringMap.TIterator;
   begin
-    languageIterator := Languages[0].Min;
+    languageIterator := Languages[0].Storage.Iterator;
     if
       languageIterator <> nil
     then
@@ -130,10 +129,23 @@ begin
   end;
 end;
 
+function TLanguageSet.FindLanguage(const aLanguageId: string): TLanguage;
+var
+  i: Integer;
+begin
+  if
+    LanguageIds.Find(aLanguageId, i)
+  then
+    result := Languages[i]
+  else
+    result := nil;
+end;
+
 destructor TLanguageSet.Destroy;
 begin
-  FLanguageIds.Free;
-  FLanguages.Free;
+  LanguageIds.Free;
+  Languages.ReleaseContent;
+  Languages.Free;
   inherited Destroy;
 end;
 
